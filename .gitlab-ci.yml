@@ -32,7 +32,7 @@ build_image:
     - shell
     - remote
   script:
-    - docker build -t CI_REGISTRY_IMAGE:1.0 .
+    - docker build -t $CI_REGISTRY_IMAGE:1.0 .
 
 push_image:
   stage: build
