@@ -19,7 +19,7 @@ run_unit_tests:
   image: node:17-alpine3.14
   tags:
     - ec2
-    - aws
+    - docker
     - remote
   stage: test
   before_script:
