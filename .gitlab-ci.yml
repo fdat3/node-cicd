@@ -52,7 +52,7 @@ build_image:
   stage: build
   script: 
     - echo "Building the docker image..."
-    - echo "Tagging the docker image $image_repository:$image_tag "
+    - echo "Tagging the docker image ${image_repository}:${image_tag} "
   
 push_image:
   tags:
@@ -65,7 +65,7 @@ push_image:
     - build_image
   script:
     - echo "Logging into docker registry..."
-    - echo "Pushing docker image $image_repository:$image_tag to registry..."
+    - echo "Pushing docker image ${image_repository}:${image_tag} to registry..."
 
 deploy_image:
   tags:
@@ -75,5 +75,5 @@ deploy_image:
     - master
   stage: deploy
   script:
-    - echo "Deploying new docker image $image_repository:$image_tag to $DEPLOYMENT_ENVIRONMENT using the following configuration file - $PROPERTIES_FILE ..."
+    - echo "Deploying new docker image ${image_repository}:${image_tag} to $DEPLOYMENT_ENVIRONMENT using the following configuration file - $PROPERTIES_FILE ..."
     - cat $PROPERTIES_FILE
