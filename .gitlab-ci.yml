@@ -45,7 +45,6 @@ run_lint_tests:
 
 build_image:
   tags:
-    - macos
     - local
   only:
     - master
@@ -56,7 +55,6 @@ build_image:
   
 push_image:
   tags:
-    - macos
     - local
   only:
     - master
@@ -69,7 +67,6 @@ push_image:
 
 deploy_image:
   tags:
-    - macos
     - local
   only:
     - master
