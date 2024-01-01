@@ -48,7 +48,7 @@ build_image:
     - aws
     - remote
   only:
-    - main
+    - master
   stage: build
   script: 
     - echo "Building the docker image..."
@@ -60,7 +60,7 @@ push_image:
     - aws
     - remote
   only:
-    - main
+    - master
   stage: build
   needs: 
     - build_image
@@ -74,7 +74,7 @@ deploy_image:
     - aws
     - remote
   only:
-    - main
+    - master
   stage: deploy
   script:
     - echo "Deploying new docker image $image_repository:$image_tag to $DEPLOYMENT_ENVIRONMENT using the following configuration file - $PROPERTIES_FILE ..."
