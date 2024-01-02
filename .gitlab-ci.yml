@@ -63,8 +63,7 @@ deploy_image:
   before_script:
     - chmod 400 $SSH_PRIVATE_KEY
   script: 
-    - ssh -o UserKnownHostsFile=/dev/null \
-          -o StrictHostKeyChecking=no \
+    - ssh -o StrictHostKeyChecking=no \
           -o LogLevel=quiet \
           -i identity_file \
           machine.example.org \
