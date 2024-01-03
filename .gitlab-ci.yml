@@ -5,6 +5,8 @@ workflow:
     - when: always
 
 variables:
+  IMAGE_NAME: $CI_REGISTRY_IMAGE
+  IMAGE_TAG: "1.0"
   DEV_SERVER_HOST: 18.138.231.213
   DEV_SERVER_ENDPOINT: http://ec2-18-138-231-213.ap-southeast-1.compute.amazonaws.com:3000
   
@@ -37,7 +39,7 @@ build_image:
     - shell
     - remote
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:1.0 .
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
 push_image:
   stage: build
@@ -53,7 +55,7 @@ push_image:
     - echo "Docker image repo is $CI_REGISTRY_IMAGE"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker push $CI_REGISTRY_IMAGE:1.0
+    - docker push $IMAGE_NAME:$IMAGE_TAG
 
 deploy_image:
   stage: deploy
@@ -64,9 +66,16 @@ deploy_image:
   before_script:
     - chmod 400 $SSH_PRIVATE_KEY
   script: 
+    - scp -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ./docker-compose.yaml ubuntu@$DEV_SERVER_HOST:/home/ubuntu
     - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ubuntu@$DEV_SERVER_HOST "
         docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
-        docker run -d -p 3000:3000 --platform arm64 $CI_REGISTRY_IMAGE:1.0"
+
+        export DC_IMAGE_NAME=$IMAGE_NAME && 
+        export DC_IMAGE_TAG=$IMAGE_TAG &&
+
+        docker-compose down &&
+        docker-compose up -d"
+        
   environment:
     name: dev
     url: $DEV_SERVER_ENDPOINT
