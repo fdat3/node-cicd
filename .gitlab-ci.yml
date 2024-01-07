@@ -75,6 +75,11 @@ run_unit_tests:
 
 run_lint_checks:
   stage: test
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - app/node_modules/
+    policy: pull
   tags:
     - ec2
     - shell
@@ -84,11 +89,7 @@ run_lint_checks:
     - npm install
   script:
     - echo "Running lint checks"
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - node_modules/
-    policy: pull
+  
 
 
 build_image:
