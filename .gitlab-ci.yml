@@ -15,29 +15,12 @@ stages:
   - deploy
 
 
-run_lint_checks:
-  stage: test
-  cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - app/node_modules/
-    policy: pull
-  tags:
-    - ec2
-    - shell
-    - remote
-  before_script:
-    - cd app
-    - npm install
-  script:
-    - echo "Running lint checks"
-
 run_unit_test:
   stage: test
   cache:
     key: "$CI_COMMIT_REF_SLUG"
     paths:
-      - app/node_modules/
+      - node_modules/
   image: node:17-alpine3.14
   tags:
     - ec2
@@ -52,6 +35,26 @@ run_unit_test:
     when: always
     reports:
       junit: app/junit.xml
+
+
+run_lint_checks:
+  stage: test
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - node_modules/
+    policy: pull
+  tags:
+    - ec2
+    - shell
+    - remote
+  before_script:
+    - cd app
+    - npm install
+  script:
+    - echo "Running lint checks"
+
+
   
 build_image:
   stage: build
