@@ -169,6 +169,14 @@ deploy_image_staging:
     APP_PORT: 4000
     ENDPOINT: $STAGING_SERVER_ENDPOINT
 
+run_performance_tests:
+  stage: deploy_staging
+  needs:
+    - deploy_to_staging
+  script: 
+    - echo "Running performance tests"
+
+
 deploy_to_prod:
   extends: .deploy
   stage: deploy_prod
