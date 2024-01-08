@@ -172,7 +172,7 @@ deploy_image_staging:
 run_performance_tests:
   stage: deploy_staging
   needs:
-    - deploy_to_staging
+    - deploy_image_staging
   script: 
     - echo "Running performance tests"
 
