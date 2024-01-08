@@ -129,7 +129,7 @@ deploy_image_dev:
 run_functional_tests:
   stage: deploy_dev
   needs:
-    - deploy_dev
+    - deploy_image_dev
   script:
     - echo "running functional test"
   
