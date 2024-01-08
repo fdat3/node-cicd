@@ -58,8 +58,6 @@ run_lint_checks:
     policy: pull
 
 
-
-  
 build_image:
   stage: build
   tags:
