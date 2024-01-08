@@ -14,6 +14,9 @@ stages:
   - build
   - deploy
 
+sast:
+  stage: test
+
 
 run_unit_test:
   image: node:17-alpine3.14
@@ -118,3 +121,5 @@ deploy_image:
     name: dev
     url: $DEV_SERVER_ENDPOINT
 
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
